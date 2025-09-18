@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumo de API - JSONPlaceholder</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2rem; }
+        h1 { color: #333; }
+        #posts { margin-top: 1.5rem; }
+        .post { border: 1px solid #ddd; padding: 1rem; margin-bottom: 1rem; border-radius: 5px; }
+        .post-title { font-weight: bold; color: #0074D9; }
+    </style>
+</head>
+<body>
+    <h1>Listado de Posts (API JSONPlaceholder)</h1>
+    <button onclick="cargarPosts()">Cargar Posts</button>
+    <div id="posts"></div>
+    <script>
+        function cargarPosts() {
+            fetch('https://jsonplaceholder.typicode.com/posts')
+                .then(response => response.json())
+                .then(posts => {
+                    const postsDiv = document.getElementById('posts');
+                    postsDiv.innerHTML = '';
+                    posts.forEach(post => {
+                        const postDiv = document.createElement('div');
+                        postDiv.className = 'post';
+                        postDiv.innerHTML = `
+                            <div class="post-title">${post.title}</div>
+                            <div>${post.body}</div>
+                        `;
+                        postsDiv.appendChild(postDiv);
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('posts').innerHTML = '<p style="color:red;">Error al cargar los posts.</p>';
+                });
+        }
+    </script>
+</body>
+</html>
